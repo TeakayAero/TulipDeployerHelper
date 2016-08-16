@@ -11,14 +11,20 @@ fi
 gitName=$(git config user.name)
 fn=$(echo "$gitName" | { read first _ ; echo $first ; })
 
-pyreturn="Init pyreturn variable"
-if [ $branch = "master" ]; then
-    pyreturn=$(python messageController.py $1 $2 $3 $branch $fn $message)
-else
-    pyreturn=$(python messageController.py $1 $2 $3 $branch $fn $status $message)
+if ! [ $message = "none" ]; then
+	pyreturn="Init pyreturn variable"
+	if [ $branch = "master" ]; then
+	    pyreturn=$(python messageController.py $1 $2 $3 $branch $fn $message)
+	else
+	    pyreturn=$(python messageController.py $1 $2 $3 $branch $fn $status $message)
+	fi
 fi
+
+
 if ! [ $status = "done" ]; then
-	echo "$pyreturn"
+	if ! [ $message = "none" ]; then
+		echo "$pyreturn"
+	fi
 	bundle=$(which bundle)
 	msg="cap $1:$2 deploy -S branch=origin/$branch"
 	if [ -n bundle ]; then
