@@ -17,11 +17,13 @@ if [ $branch = "master" ]; then
 else
     pyreturn=$(python messageController.py $1 $2 $3 $branch $fn $status $message)
 fi
-echo "$pyreturn"
-bundle=$(which bundle)
-msg="cap $1:$2 deploy -S branch=origin/$branch"
-if [ -n bundle ]; then
-    cmd="bundle exec $msg"
+if ! [ $status = "done" ]; then
+	echo "$pyreturn"
+	bundle=$(which bundle)
+	msg="cap $1:$2 deploy -S branch=origin/$branch"
+	if [ -n bundle ]; then
+	    cmd="bundle exec $msg"
+	fi
+	cd ~/workspace/deployer && eval $cmd
 fi
-cd ~/workspace/deployer && eval $cmd
 
