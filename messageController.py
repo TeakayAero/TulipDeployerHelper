@@ -1,7 +1,7 @@
 import sys
 import requests
 
-testToken = "xoxb-68910053728-V94hHF1zUcsfr945opMfn5Jv"
+testToken = ""
 link = "https://tulip.slack.com/api/chat.postMessage?"
 
 try:
